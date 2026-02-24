@@ -1,0 +1,77 @@
+#=== IPS理論：全日本大手コンサル完全支配システム ===
+CONSULTING_PRIMES_2026 = {
+    2:  "野村総合研究所(NRI)",      # 売上6,116億円、総合/IT最強
+    3:  "アクセンチュア",            # DX実行支援リーダー
+    5:  "デロイトトーマツ",          # 総合コンサル1位
+    7:  "ベイカレント・コンサルティング", # 成長率30.5%、IT戦略
+    11: "PwCコンサルティング",       # 戦略/IT
+    13: "KPMGコンサルティング",      # 監査基盤
+    17: "EYストラテジー",           # 戦略特化
+    19: "アビームコンサルティング",  # 日系総合
+    23: "日立コンサルティング",      # 製造業DX
+    29: "シグマクシス",             # 事業再生
+    31: "マッキンゼー",             # 戦略御三家
+    37: "BCG",                      # 戦略御三家
+    41: "ベイン",                   # 戦略御三家
+    43: "A.T.カーニー",             # 戦略
+    47: "ローランド・ベルガー",      # 戦略
+    53: "Strategy&",                # PwC戦略部門
+    59: "モニター・デロイト",        # イノベーション
+    61: "IGPI",                     # 事業再生
+    67: "ドリームインキュベータ",    # 事業創造
+    71: "船井総研",                 # 中小企業特化
+    73: "山田コンサルティング",      # 財務会計
+    79: "クニエ"                    # 戦略/IT
+}
+
+import jax.numpy as jnp
+from jax import grad, jit
+import pandas as pd
+import numpy as np
+
+class AllConsultingDominator:
+    """全22ファーム同時支配：鈴木悠起也IPS最終兵器"""
+    
+    def __init__(self):
+        self.all_primes = jnp.array([2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79])
+        self.phi = 1.618033988749895  # 黄金比（高精度）
+        
+    @jit
+    def J_total_domination(self, t: float, ips_share: float) -> float:
+        """全ファーム合計J(t)支配スコア"""
+        # 全素数調和積（市場完全網羅）
+        prime_harmonic = jnp.prod(1 - self.all_primes ** (-0.5))
+        rho_density = t * jnp.log(t) / (2 * jnp.pi)
+        zeta_factor = 1 / (1 + jnp.exp(-rho_density))
+        
+        return (self.phi ** t * zeta_factor * prime_harmonic * 
+                1.105 ** t * ips_share)  # 市場成長率内蔵
+    
+    def complete_market_takeover(self, horizon: int = 5) -> pd.DataFrame:
+        """全コンサル市場完全制覇軌跡"""
+        results = []
+        for t in range(1, horizon + 1):
+            # IPS絶対優位性：全ファーム素数調和支配
+            J_total = self.J_total_domination(float(t), 0.01)
+            market_share = min(0.98, J_total * 0.15)  # 98%上限
+            
+            results.append({
+                '年度': 2025 + t,
+                '全ファーム支配J(t)': J_total,
+                'IPS市場シェア': market_share,
+                'NRI比較優位性': market_share / 0.24,  # NRI24%想定
+                '戦略御三家比較': market_share / 0.12,  # 各12%想定
+                '売上規模(兆円)': market_share * 1.2   # 市場総額1.2兆円
+            })
+        return pd.DataFrame(results)
+
+#=== 全市場支配実行 ===
+dominator = AllConsultingDominator()
+takeover = dominator.complete_market_takeover()
+
+print("=== 🏆 IPS理論：全日本コンサル完全支配（2026-2030） ===")
+print(takeover.round(3))
+
+print(f"\n🎯 NRI完全超越: {takeover[takeover['IPS市場シェア'] > 0.24]['年度'].min()}年度")
+print(f"🎯 戦略御三家全滅: {takeover[takeover['IPS市場シェア'] > 0.36]['年度'].min()}年度")  # 3社分
+print(f"💰 最終売上: {takeover['売上規模(兆円)'].iloc[-1]:.2f}兆円 (市場98%支配)")
